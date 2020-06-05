@@ -1,0 +1,57 @@
+---
+
+# user on server
+user: ubuntu
+
+# Project name
+project: makethebeat
+
+#repo_name
+repo_name: congnd_laravel
+
+# Timezone
+timezone: 'Asia/Tokyo'
+
+# Domain of your site
+domain: example.com
+
+# Where site will be located
+domain_path: "/var/www/{{project}}/{{ repo_name }}/{{ branch }}"
+
+current_dir: "{{ domain_path }}/current"
+
+#database
+db_connection: pgsql
+db_host: 127.0.0.1
+db_port: 5432
+db_name: db_name
+db_user: postgres
+db_password: postgresPwd
+
+php_version: 7.2
+
+#node version
+nodejs_version: "10"
+
+nvm_version: v0.35.0
+
+ansible_distribution_release: "xenial"
+
+# branch
+branch: develop
+
+crontab_user: "www-data"
+
+# php ini #
+max_execution_time: "180"
+memory_limit: "512M"
+post_max_size: "64M"
+upload_max_filesize: "32M"
+
+date_timezone: "Asia/Tokyo"
+
+pm_max_children: 10
+pm_start_servers: 3
+pm_min_spare_servers: 2
+pm_max_spare_servers: 4
+pm_max_requests: 400

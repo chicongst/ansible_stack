@@ -1,0 +1,6 @@
+- name: Laravel schedule for CMS
+  cron: >
+    job="php {{ current_dir }}/artisan schedule:run >> /dev/null 2>&1"
+    state=present
+    user={{ crontab_user }}
+    name="php artisan schedule:run | cms "

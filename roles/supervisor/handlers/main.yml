@@ -1,0 +1,5 @@
+- name: reload Supervisor
+  command: |
+    supervisorctl reread
+    supervisorctl update
+    supervisorctl restart all

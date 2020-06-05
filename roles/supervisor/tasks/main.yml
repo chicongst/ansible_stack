@@ -1,0 +1,5 @@
+---
+- name: Install supervisor for running workers in background.
+  apt:
+    name: supervisor
+    state: present

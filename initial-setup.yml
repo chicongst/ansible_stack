@@ -1,0 +1,26 @@
+---
+
+- hosts: all
+  gather_facts: false
+  remote_user: root
+
+  vars_files:
+    - vars/main.yml
+
+  pre_tasks:
+    - name: Update all packages
+      apt:
+        update_cache: yes
+        upgrade: safe
+        autoremove: yes
+      become: true
+
+    - name: Install python2
+      raw: sudo apt install -y python-minimal
+      become: true
+
+    - name: Install aptitude
+      apt:
+        name: aptitude
+        state: present
+      become: true

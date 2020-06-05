@@ -1,0 +1,60 @@
+---
+
+- hosts: all
+  remote_user: "{{ user }}"
+
+  vars_files:
+    - vars/main.yml
+
+  roles:
+    - name: essentials
+      tags: essentials
+
+    - name: timezone
+      tags: timezone
+
+    - name: nvm
+      tags: nvm
+      become: true
+      become_user: "{{ nvm.user }}"
+      become_method: su
+      become_flags: "-s /bin/sh"
+      nvm:
+        user: "{{ user }}"
+        version:  "{{ nvm_version }}"
+        node_version: "{{ nodejs_version }}"
+
+    - name: nodejs
+      tags: nodejs
+      become: true
+
+    - name: yarn
+      tags: yarn
+      become: true
+
+    - name: nginx
+      tags: nginx
+      become: true
+
+    - name: php
+      tags: php
+      become: true
+
+    - name: supervisor
+      tags: supervisor
+      become: true
+
+    - name: composer
+      tags: composer
+      become: true
+
+    - name: crontab
+      tags: crontab
+      become: true
+
+    - name: ffmpeg
+      tags: ffmpeg
+      become: true
+
+  tasks:
+  #  - include: tasks/update_php_ini.yml

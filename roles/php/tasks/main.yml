@@ -1,0 +1,32 @@
+---
+- name: Install software-properties-common
+  apt:
+    name: software-properties-common
+    state: present
+    update_cache: yes
+  become: true
+
+- name: Add ondrej repository for latest version of PHP.
+  apt_repository:
+    repo: ppa:ondrej/php
+    update_cache: yes
+
+- name: Install php
+  apt:
+    update_cache: yes
+    pkg:
+      - php{{ php_version }}
+      - php{{ php_version }}-cli
+      - php{{ php_version }}-fpm
+      - php{{ php_version }}-curl
+      - php{{ php_version }}-common
+      - php{{ php_version }}-gd
+      - php{{ php_version }}-intl
+      - php{{ php_version }}-mbstring
+      - php{{ php_version }}-pgsql
+      - php{{ php_version }}-xml
+      - php{{ php_version }}-json
+      - php{{ php_version }}-zip
+  notify:
+    - Start php-fpm
+  become: true

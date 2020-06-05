@@ -1,0 +1,62 @@
+---
+
+- name: Add nginx repository for latest version of NGINX.
+  apt_repository:
+    repo: ppa:nginx/stable
+    update_cache: yes
+
+- name: Install nginx
+  apt:
+    pkg: nginx
+    state: present
+    update_cache: true
+  notify:
+    - Start nginx
+  become: true
+
+- name: Disable default site
+  file:
+    dest: /etc/nginx/sites-enabled/default
+    state: absent
+  become: true
+
+- name: Remove default site
+  file:
+    dest: /etc/nginx/sites-available/default
+    state: absent
+  become: true
+
+- name: Remove default html file
+  file:
+    dest: /var/www/html/index.nginx-debian.html
+    state: absent
+  become: true
+
+- name: Copy site configs
+  template:
+    src: "{{ item }}"
+    dest: "/etc/nginx/sites-available/{{ item | basename | regex_replace('\\.j2','') }}"
+    owner: root
+    group: root
+  with_fileglob:
+    - "templates/*.j2"
+  become: true
+  notify:
+    - Reload nginx
+
+- name: Find all sites on remote
+  find:
+    paths: /etc/nginx/sites-available
+  become: true
+  register: sites
+
+- name: Enable sites
+  file:
+    src: "{{ item.path }}"
+    dest: "/etc/nginx/sites-enabled/{{ item.path | basename }}"
+    state: link
+  with_items:
+    - "{{ sites.files }}"
+  become: true
+  notify:
+    - Reload nginx

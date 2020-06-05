@@ -1,0 +1,29 @@
+---
+
+- name: Add Yarn apt key
+  apt_key:
+    url: https://dl.yarnpkg.com/debian/pubkey.gpg
+    state: present
+
+- name: Install Yarn repository
+  apt_repository:
+    repo: "deb https://dl.yarnpkg.com/debian/ stable main"
+    state: present
+    filename: yarn
+
+- name: Install Yarn
+  apt:
+    name: yarn
+    state: present
+
+- name: Npm install webpack
+  npm:
+    name: webpack
+    global: yes
+    state: present
+
+- name: Npm install pm2
+  npm:
+    name: pm2
+    global: yes
+    state: present

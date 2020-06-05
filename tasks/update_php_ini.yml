@@ -1,0 +1,49 @@
+---
+
+- name: Update cli php.ini file.
+  lineinfile:
+    path: /etc/php/{{ php_version }}/cli/php.ini
+    regexp: "{{ item.regex }}"
+    line: "{{ item.value }}"
+    state: present
+
+  with_items:
+    - { regex: '^max_execution_time', value: 'max_execution_time = {{ max_execution_time }}' }
+    - { regex: '^memory_limit', value: 'memory_limit = {{ memory_limit }}' }
+    - { regex: '^post_max_size', value: 'post_max_size = {{ post_max_size }}' }
+    - { regex: '^upload_max_filesize', value: 'upload_max_filesize = {{ upload_max_filesize }}' }
+    - { regex: '^date.timezone', value: 'date.timezone = {{ date_timezone }}' }
+  become: true
+
+- name: Update fpm php.ini file.
+  lineinfile:
+    path: /etc/php/{{ php_version }}/fpm/php.ini
+    regexp: "{{ item.regex }}"
+    line: "{{ item.value }}"
+    state: present
+  with_items:
+    - { regex: '^max_execution_time', value: 'max_execution_time = {{ max_execution_time }}' }
+    - { regex: '^memory_limit', value: 'memory_limit = {{ memory_limit }}' }
+    - { regex: '^post_max_size', value: 'post_max_size = {{ post_max_size }}' }
+    - { regex: '^upload_max_filesize', value: 'upload_max_filesize = {{ upload_max_filesize }}' }
+    - { regex: '^date.timezone', value: 'date.timezone = {{ date_timezone }}' }
+  become: true
+
+- name: Update fpm www.conf file.
+  lineinfile:
+    path: /etc/php/{{ php_version }}/fpm/pool.d/www.conf
+    regexp: "{{ item.regex }}"
+    line: "{{ item.value }}"
+    state: present
+  with_items:
+    - { regex: '^pm.max_children', value: 'pm.max_children = {{ pm_max_children }}' }
+    - { regex: '^pm.start_servers', value: 'pm.start_servers = {{ pm_start_servers }}' }
+    - { regex: '^pm.min_spare_servers', value: 'pm.min_spare_servers = {{ pm_min_spare_servers }}' }
+    - { regex: '^pm.max_spare_servers', value: 'pm.max_spare_servers = {{ pm_max_spare_servers }}' }
+    - { regex: '^pm.max_requests', value: 'pm.max_requests = {{ pm_max_requests }}' }
+  become: true
+
+- name: restart Php-fpm
+  command: service php{{ php_version }}-fpm restart
+  become: true
+
