@@ -40,6 +40,10 @@
       tags: php
       become: true
 
+    - name: postgresql
+      tags: postgresql
+      become: true
+
     - name: supervisor
       tags: supervisor
       become: true
