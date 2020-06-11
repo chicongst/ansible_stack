@@ -38,9 +38,9 @@ $ ansible-playbook setup.yml -i inventory --skip-tags=nvm,nodejs,yarn
 
 ### For connection through ssh bastion
 ```
-[cms:vars]
+[group1:vars]
 ansible_ssh_common_args= '-o ProxyCommand="ssh -W %h:%p your-bastion-server"'
-[curation:vars]
+[group2:vars]
 ansible_ssh_common_args= '-o ProxyCommand="ssh -W %h:%p your-bastion-server"'
 ```
 
