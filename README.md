@@ -1,4 +1,4 @@
-# ANSIBLE SETUP ENVIRONMENT AND DEPLOY SOURCE
+# ANSIBLE SETUP ENVIRONMENT 
 
 ## Introduce
 Ansible is simple open source IT engine which automates application deployment, intra service orchestration, cloud provisioning and many other IT tools.
@@ -28,22 +28,23 @@ $ ansible-playbook setup.yml -i inventory
 
 To run only specific roles
 ```sh
-$ ansible-playbook setup.yml -i inventory --tags=user,nginx
+$ ansible-playbook setup.yml -i inventory --tags=nginx,letencrypt
 ```
 
 To exclude specific roles
 ```sh
-$ ansible-playbook setup.yml -i inventory --skip-tags=user,nginx
+$ ansible-playbook setup.yml -i inventory --skip-tags=nvm,nodejs,yarn
 ```
 
 ### For connection through ssh bastion
 ```
 [cms:vars]
-ansible_ssh_common_args= '-o ProxyCommand="ssh -W %h:%p mtb-bastion-prod"'
+ansible_ssh_common_args= '-o ProxyCommand="ssh -W %h:%p your-bastion-server"'
 [curation:vars]
-ansible_ssh_common_args= '-o ProxyCommand="ssh -W %h:%p mtb-bastion-prod"'
+ansible_ssh_common_args= '-o ProxyCommand="ssh -W %h:%p your-bastion-server"'
 ```
 
 ## Deploy
-Check [deploy] source
+[https://github.com/chicongst/capdeployst]
+
 

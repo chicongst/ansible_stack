@@ -5,6 +5,7 @@
 
   vars_files:
     - vars/main.yml
+    - vars/letencrypt.yml
 
   roles:
     - name: essentials
@@ -54,6 +55,10 @@
 
     - name: crontab
       tags: crontab
+      become: true
+
+    - name: letencrypt
+      tags: letencrypt
       become: true
 
     - name: ffmpeg
